@@ -5,18 +5,18 @@ import axiosInstance from "../axiosConfig";
 
 const { Text } = Typography;
 
-const DonorsList = ({ fundingNeedId }) => {
+const DonorsList = ({ campaignId }) => {
     const [donors, setDonors] = useState([]);
 
     useEffect(() => {
         const fetchDonors = async () => {
             const response = await axiosInstance.get(
-                `/api/funding-needs/${fundingNeedId}/donors?limit=10`
+                `/api/campaigns/${campaignId}/donors?limit=10`
             );
             setDonors(response.data.data);
         };
         fetchDonors();
-    }, [fundingNeedId]);
+    }, [campaignId]);
 
     return (
         <div>

@@ -25,9 +25,9 @@ import { beautifyDate } from "../../utils/datetime";
 
 const { Title, Text, Paragraph } = Typography;
 
-const FundingNeedDetail = () => {
+const CampaignDetail = () => {
     const { id } = useParams();
-    const [fundingNeed, setFundingNeed] = useState(null);
+    const [campaign, setCampaign] = useState(null);
     const [donationModalOpen, setDonationModalOpen] = useState(false);
 
     const handleDonate = () => {
@@ -35,13 +35,11 @@ const FundingNeedDetail = () => {
     };
 
     useEffect(() => {
-        const fetchFundingNeed = async () => {
-            const response = await axiosInstance.get(
-                `/api/funding-needs/${id}`
-            );
-            setFundingNeed(response.data.data);
+        const fetchCampaign = async () => {
+            const response = await axiosInstance.get(`/api/campaigns/${id}`);
+            setCampaign(response.data.data);
         };
-        fetchFundingNeed();
+        fetchCampaign();
     }, [id]);
 
     return (
@@ -53,8 +51,8 @@ const FundingNeedDetail = () => {
                 >
                     <div className="relative">
                         <img
-                            src={fundingNeed?.imageUrl}
-                            alt="Funding Need"
+                            src={campaign?.imageUrl}
+                            alt="Campaign"
                             className="w-full h-96 object-cover"
                         />
                         <div className="absolute top-6 right-6">
@@ -63,7 +61,7 @@ const FundingNeedDetail = () => {
                                 className="text-sm font-semibold"
                             >
                                 {Math.ceil(
-                                    (new Date(fundingNeed?.deadline) -
+                                    (new Date(campaign?.deadline) -
                                         new Date()) /
                                         (1000 * 60 * 60 * 24)
                                 )}
@@ -76,7 +74,7 @@ const FundingNeedDetail = () => {
                         <Row gutter={32}>
                             <Col xs={24} lg={16}>
                                 <Title level={1} className="mb-4">
-                                    {fundingNeed?.title}
+                                    {campaign?.title}
                                 </Title>
 
                                 <Space className="mb-6">
@@ -87,7 +85,7 @@ const FundingNeedDetail = () => {
                                     />
                                     <div>
                                         <Text strong className="block">
-                                            {fundingNeed?.createdBy?.name}
+                                            {campaign?.createdBy?.name}
                                         </Text>
                                         <Text
                                             type="secondary"
@@ -100,7 +98,7 @@ const FundingNeedDetail = () => {
 
                                 <div className="mb-8">
                                     <Paragraph className="text-gray-700 leading-relaxed">
-                                        {fundingNeed?.description}
+                                        {campaign?.description}
                                     </Paragraph>
                                 </div>
                             </Col>
@@ -117,7 +115,7 @@ const FundingNeedDetail = () => {
                                         <div className="flex justify-between items-center mb-2">
                                             <Text className="text-2xl font-bold text-green-600">
                                                 {formatAmount(
-                                                    fundingNeed?.currentAmount
+                                                    campaign?.currentAmount
                                                 )}
                                             </Text>
                                             <Text
@@ -126,7 +124,7 @@ const FundingNeedDetail = () => {
                                             >
                                                 of{" "}
                                                 {formatAmount(
-                                                    fundingNeed?.goalAmount
+                                                    campaign?.goalAmount
                                                 )}{" "}
                                                 goal
                                             </Text>
@@ -134,8 +132,8 @@ const FundingNeedDetail = () => {
 
                                         <Progress
                                             percent={progressPercentage(
-                                                fundingNeed?.currentAmount,
-                                                fundingNeed?.goalAmount
+                                                campaign?.currentAmount,
+                                                campaign?.goalAmount
                                             )}
                                             strokeColor={{
                                                 "0%": "#10b981",
@@ -151,8 +149,8 @@ const FundingNeedDetail = () => {
                                             <Col span={12}>
                                                 <Text className="text-2xl font-bold text-gray-800 block">
                                                     {Math.ceil(
-                                                        (fundingNeed?.currentAmount /
-                                                            fundingNeed?.goalAmount) *
+                                                        (campaign?.currentAmount /
+                                                            campaign?.goalAmount) *
                                                             100
                                                     )}{" "}
                                                     %
@@ -166,7 +164,7 @@ const FundingNeedDetail = () => {
                                             </Col>
                                             <Col span={12}>
                                                 <Text className="text-2xl font-bold text-gray-800 block">
-                                                    {fundingNeed?.backers}
+                                                    {campaign?.backers}
                                                 </Text>
                                                 <Text
                                                     type="secondary"
@@ -191,14 +189,14 @@ const FundingNeedDetail = () => {
                                         }}
                                         disabled={
                                             progressPercentage(
-                                                fundingNeed?.currentAmount,
-                                                fundingNeed?.goalAmount
+                                                campaign?.currentAmount,
+                                                campaign?.goalAmount
                                             ) >= 100
                                         }
                                     >
                                         {progressPercentage(
-                                            fundingNeed?.currentAmount,
-                                            fundingNeed?.goalAmount
+                                            campaign?.currentAmount,
+                                            campaign?.goalAmount
                                         ) < 100
                                             ? "Donate Now"
                                             : "Funded"}
@@ -225,7 +223,7 @@ const FundingNeedDetail = () => {
                                             </Space>
                                             <Text strong>
                                                 {beautifyDate(
-                                                    fundingNeed?.deadline
+                                                    campaign?.deadline
                                                 )}
                                             </Text>
                                         </div>
@@ -356,7 +354,7 @@ const FundingNeedDetail = () => {
                                 className="w-full"
                                 size="large"
                             >
-                                <DonorsList fundingNeedId={id} />
+                                <DonorsList campaignId={id} />
                             </Space>
                             <Divider />
                             <Text
@@ -373,4 +371,4 @@ const FundingNeedDetail = () => {
     );
 };
 
-export default FundingNeedDetail;
+export default CampaignDetail;

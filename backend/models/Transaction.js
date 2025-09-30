@@ -1,15 +1,15 @@
 import { Schema, model } from "mongoose";
 
-const TransactionSchema = new Schema(
+const transactionSchema = new Schema(
     {
         donation: {
             type: Schema.Types.ObjectId,
             ref: "Donation",
             index: true,
         },
-        fundingNeedId: {
+        campaignId: {
             type: Schema.Types.ObjectId,
-            ref: "FundingNeed",
+            ref: "Campaign",
             index: true,
         },
 
@@ -46,8 +46,8 @@ const TransactionSchema = new Schema(
     { timestamps: true }
 );
 
-TransactionSchema.index({ paymentIntentId: 1 });
-TransactionSchema.index({ fundingNeed: 1, createdAt: -1 });
+transactionSchema.index({ paymentIntentId: 1 });
+transactionSchema.index({ fundingNeed: 1, createdAt: -1 });
 
-const Transaction = model("Transaction", TransactionSchema);
+const Transaction = model("Transaction", transactionSchema);
 export default Transaction;

@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const fundingNeedSchema = new Schema({
+const campaignSchema = new Schema({
     title: {
         type: String,
         required: true,
@@ -57,16 +57,16 @@ const fundingNeedSchema = new Schema({
     },
 });
 
-fundingNeedSchema.pre("save", function (next) {
+campaignSchema.pre("save", function (next) {
     this.updatedAt = Date.now();
     next();
 });
 
-fundingNeedSchema.methods.getProgressPercent = function () {
+campaignSchema.methods.getProgressPercent = function () {
     if (this.goalAmount === 0) return 0;
     return Math.min((this.currentAmount / this.goalAmount) * 100, 100);
 };
 
-const FundingNeed = model("FundingNeed", fundingNeedSchema);
+const Campaign = model("Campaign", campaignSchema);
 
-export default FundingNeed;
+export default Campaign;

@@ -65,7 +65,7 @@ export const uploadMultipleFilesValidation = [
     }),
 ];
 
-export const createFundingNeedValidation = [
+export const createCampaignValidation = [
     body("title")
         .trim()
         .isLength({ min: 2 })

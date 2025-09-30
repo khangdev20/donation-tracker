@@ -1,5 +1,5 @@
-import CreationFundingNeed from "../pages/fundraisers/CreationFundingNeed";
-import FundingNeedDetail from "../pages/fundraisers/FundingNeedDetail";
+import CampaignCreation from "../pages/fundraisers/CampaignCreation";
+import CampaignDetail from "../pages/fundraisers/CampaignDetail";
 import HomePage from "../pages/HomePage";
 import Login from "../pages/Login";
 import Profile from "../pages/Profile";
@@ -20,7 +20,7 @@ export const publicRoutes = [
     },
     {
         path: "/fundraisers/creation",
-        element: CreationFundingNeed,
+        element: CampaignCreation,
     },
     {
         path: "/",
@@ -28,6 +28,6 @@ export const publicRoutes = [
     },
     {
         path: "/fundraisers/:id",
-        element: FundingNeedDetail,
+        element: CampaignDetail,
     },
 ];

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const { Title, Text } = Typography;
 
-const FundingNeedItem = ({ fundingNeed }) => {
+const CampaignItem = ({ campaign }) => {
     const {
         _id,
         title,
@@ -15,7 +15,7 @@ const FundingNeedItem = ({ fundingNeed }) => {
         imageUrl,
         createdBy,
         status,
-    } = fundingNeed;
+    } = campaign;
 
     const progressPercentage = Math.min(
         (currentAmount / goalAmount) * 100,
@@ -151,4 +151,4 @@ const FundingNeedItem = ({ fundingNeed }) => {
     );
 };
 
-export default FundingNeedItem;
+export default CampaignItem;

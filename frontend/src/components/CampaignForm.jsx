@@ -51,7 +51,7 @@ const FundingNeedForm = () => {
         try {
             const result = createFundingNeedSchema.safeParse(formData);
             if (!result.success) {
-                toast.error("Funding need creation failed. Please try again.");
+                toast.error("Campaign creation failed. Please try again.");
                 const { fieldErrors, formErrors } = result.error.flatten();
                 setErrors({
                     ...fieldErrors,
@@ -59,15 +59,15 @@ const FundingNeedForm = () => {
                 });
                 return;
             }
-            await axiosInstance.post("/api/funding-needs", formData, {
+            await axiosInstance.post("/api/campaigns", formData, {
                 headers: { Authorization: `Bearer ${getAccessToken()}` },
             });
 
-            toast.success("Funding need created successfully.");
+            toast.success("Campaign created successfully.");
             navigate("/");
         } catch (error) {
             if (error?.response?.data?.errorType === "validation") {
-                toast.error("Funding need creation failed.");
+                toast.error("Campaign creation failed.");
                 setValidationErrors(error?.response?.data?.validationErrors);
                 return;
             } else {
@@ -89,7 +89,7 @@ const FundingNeedForm = () => {
                 onSubmit={handleSubmit}
             >
                 <h1 className="text-3xl font-bold mb-8 text-center text-gray-900">
-                    Create Funding Need
+                    Create Campaign
                 </h1>
                 <div className="space-y-6">
                     <div>

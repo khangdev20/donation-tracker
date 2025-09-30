@@ -4,10 +4,10 @@ import dotenv from "dotenv";
 import express from "express";
 import morgan from "morgan";
 import { connectDB } from "./config/db.js";
-import { webhookStripe } from "./controllers/paymentController.js";
+import PaymentController from "./controllers/paymentController.js";
 import authRoutes from "./routes/authRoutes.js";
+import campaignRoutes from "./routes/campaignRoutes.js";
 import fileRoutes from "./routes/fileRoutes.js";
-import fundingNeedRoutes from "./routes/fundingNeedRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
 
 dotenv.config();
@@ -20,7 +20,7 @@ app.use(cors());
 app.post(
     "/webhook/stripe",
     bodyParser.raw({ type: "application/json" }),
-    webhookStripe
+    PaymentController.webhookStripe.bind(PaymentController)
 );
 
 app.use(express.json());
@@ -31,7 +31,7 @@ app.use(morgan(process.env.NODE_ENV === "development" ? "dev" : "combined"));
 // API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/files", fileRoutes);
-app.use("/api/funding-needs", fundingNeedRoutes);
+app.use("/api/campaigns", campaignRoutes);
 app.use("/api/payment", paymentRoutes);
 
 // Export the app object for testing

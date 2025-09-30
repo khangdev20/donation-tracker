@@ -2,13 +2,13 @@ import { SearchOutlined } from "@ant-design/icons";
 import { Input, Pagination, Select, Spin } from "antd";
 import { useEffect, useState } from "react";
 import axiosInstance from "../axiosConfig";
-import FundingNeedList from "../components/FundingNeedList";
+import CampaignList from "../components/CampaignList";
 import useDebounce from "../hooks/useDebounce.js";
 
 const { Option } = Select;
 
 const HomePage = () => {
-    const [fundingNeeds, setFundingNeeds] = useState([]);
+    const [campaigns, setCampaigns] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [total, setTotal] = useState(0);
     const [loading, setLoading] = useState(false);
@@ -20,7 +20,7 @@ const HomePage = () => {
     const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
     useEffect(() => {
-        const fetchFundingNeeds = async () => {
+        const fetchCampaigns = async () => {
             setLoading(true);
             try {
                 const params = new URLSearchParams({
@@ -35,17 +35,17 @@ const HomePage = () => {
                 }
 
                 const response = await axiosInstance.get(
-                    `/api/funding-needs?${params.toString()}`
+                    `/api/campaigns?${params.toString()}`
                 );
-                setFundingNeeds(response.data.data);
+                setCampaigns(response.data.data);
                 setTotal(response.data.total || 0);
             } catch (error) {
-                console.error("Failed to fetch funding needs:", error);
+                console.error("Failed to fetch campaigns:", error);
             } finally {
                 setLoading(false);
             }
         };
-        fetchFundingNeeds();
+        fetchCampaigns();
     }, [currentPage, debouncedSearchTerm, sortBy, sortOrder]);
 
     const handlePageChange = (page) => {
@@ -113,7 +113,7 @@ const HomePage = () => {
                 </div>
             ) : (
                 <>
-                    <FundingNeedList fundingNeeds={fundingNeeds} />
+                    <CampaignList campaigns={campaigns} />
 
                     {total > 8 && (
                         <div className="flex justify-center items-center mt-8">
